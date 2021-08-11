@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, Text, Platform, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps
+} from 'react-native';
 import Divider from '../Divider'
 
 export type CardProps = {
@@ -8,7 +18,10 @@ export type CardProps = {
   title?: string
   titleStyle?: StyleProp<TextStyle>;
   showDriver?: boolean;
+  borderRadius?: number;
   children?: React.ReactNode;
+  onPress?: TouchableOpacityProps['onPress'];
+  onLongPress?: TouchableOpacityProps['onLongPress'];
 };
 
 const Card = ({
@@ -18,9 +31,17 @@ const Card = ({
   title,
   titleStyle,
   showDriver = false,
+  borderRadius,
+  onPress,
+  onLongPress,
   ...attributes
 }: CardProps) => {
-
+  const Container: any = onPress || onLongPress ? TouchableOpacity : View;
+  // 获取卡片圆角度数
+  const getBorderRadius = () => {
+    return borderRadius === undefined ? 12 : borderRadius;
+  }
+  // 卡片标题
   const CardTitle = (
     <Text
       testID="cardTitle"
@@ -30,11 +51,19 @@ const Card = ({
   )
 
   return (
-    <View
+    <Container
       {...attributes}
+      onPress={onPress}
+      delayPressIn={10}
+      activeOpacity={0.6}
       style={StyleSheet.flatten([
         styles.container,
         containerStyle && containerStyle,
+        // 圆角
+        {
+          borderRadius: getBorderRadius(),
+          elevation: 2
+        }
       ])}
     >
       <View
@@ -45,11 +74,11 @@ const Card = ({
       >
         {title && CardTitle}
         {
-          showDriver && <Divider style={StyleSheet.flatten([styles.divider])} />
+         title && showDriver && <Divider style={StyleSheet.flatten([styles.divider])} />
         }
         {children}
       </View>
-    </View>
+    </Container>
   );
 };
 
@@ -67,9 +96,9 @@ const styles = StyleSheet.create({
       },
       default: {
         shadowColor: '#D3D3D3',
-        shadowOffset: { height: 0, width: 0 },
-        shadowOpacity: 1,
-        shadowRadius: 1,
+        shadowOffset: { height: 5, width: 0 },
+        shadowOpacity: 0.25,
+        shadowRadius: 12,
       },
     }),
   },

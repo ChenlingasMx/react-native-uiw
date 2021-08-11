@@ -29,6 +29,7 @@ export {default as Input} from './Input';
 export {default as SelectCascader} from './SelectCascader';
 export {default as ExpandableSection} from './ExpandableSection';
 export {default as QuickList} from './QuickList';
+export {default as Card} from './Card';
 
 /**
  * Typography

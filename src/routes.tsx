@@ -273,4 +273,12 @@ export const stackPageData: Routes[] = [
       description: '快速完成上拉下拉请求列表',
     },
   },
+  {
+    name: 'Card',
+    component: require('./routes/Card').default,
+    params: {
+      title: 'Card 卡片',
+      description: '卡片',
+    },
+  },
 ];
